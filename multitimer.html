@@ -1,0 +1,71 @@
+﻿<html>
+<head>
+<script type="text/javascript"><!--
+var myCnt = new Array();
+var myTim = new Array();
+var numberOfTimer=0;
+
+function startTimer(a){
+  mySelect = document.getElementsByName("myMenu")[a].selectedIndex;
+  myCnt[a] = eval ( document.getElementsByName("myMenu")[a].options[mySelect].value );
+  myTim[a] = setInterval ( "myTimer("+a+")", 1000 );
+  document.getElementsByName("start")[a].disabled=true;
+}
+
+function myTimer(a){
+  myCnt[a] = myCnt[a] - 1;
+  min=Math.floor(myCnt[a]/60);
+  sec=(myCnt[a]%3600)%60;
+  if(min>10){document.getElementsByName( "countdown" )[a].innerHTML = min+':'+sec;
+  }else{document.getElementsByName( "countdown" )[a].innerHTML = '<font color="0000ff">'+min+':'+sec+'</font>';}
+  if ( myCnt[a] == 0 ){
+    clearInterval( myTim[a] );
+	document.getElementsByName("start")[a].disabled=false;
+  }
+}
+
+function cancelTimer(a){
+	myCnt[a]=0;
+	document.getElementsByName( "countdown" )[a].innerHTML = "00:00";
+    clearInterval( myTim[a] );
+	document.getElementsByName("start")[a].disabled=false;
+}
+function add()
+{
+    myCnt[numberOfTimer] = 0;
+    myTim[numberOfTimer] = 0;
+    var div_element = document.createElement("div");
+    div_element.innerHTML = '<form name="myForm"><div>'+
+	'<select name="myMenu" style="WIDTH: 80px; HEIGHT: 50px">'+
+	'<option value="3600">1h</option>'+
+	'<option value="3000">50min</option>'+
+	'<option value="2400">40min</option>'+
+	'<option value="1800">30min</option>'+
+	'<option value="1200">20min</option>'+
+	'<option value="600">10min</option>'+
+	'</select>'+
+	'<input type="button" value="start" name="start" onclick="startTimer('+numberOfTimer+')" ID="start" style="WIDTH: 80px; HEIGHT: 50px">'+
+	'<input type="button" value="cancel" name="cancel" onclick="cancelTimer('+numberOfTimer+')" ID="cancel" style="WIDTH: 80px; HEIGHT: 50px">'+
+	'<strong><SPAN ID="countdown" name="countdown">00:00</SPAN></strong>'+
+	'<input type="text" value="" ID="form" name="form" style="WIDTH: 300px; HEIGHT: 50px"> '+
+	'<BR></div></form>';
+    var parent_object = document.getElementById("piyo");
+    parent_object.appendChild(div_element);
+	numberOfTimer++;
+}
+
+// --></script>
+</head>
+<body>
+
+<div>
+<button onclick="add();">タイマーふやす</button>
+</div>
+<font size="6">
+<div id="piyo">
+</div>
+</font>
+
+
+</body>
+</html>
